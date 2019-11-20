@@ -80,6 +80,7 @@ version_used_minor=UINT8
 
 Push a message on a server
 ```
+message id => UINT32
 message type => UINT8
 created at => UINT32
 routing key => STRING
@@ -89,5 +90,23 @@ header{
   value => STRING
 }
 payload type => UINT8
-[ PAYLOAD ]
+  payload_empty (payload_type = 0)
+  payload_string (payload_type = 1)
+  payload_buffer (payload_type = 2)
+
+payload_empty:
+
+payload_string:
+  payload => STRING
+
+payload_buffer:
+  payload => BUFFER
+
+```
+
+Server answer with
+```
+message id => UINT32
+error => UINT8 (if error=0 ; no error, message ACK)
+[error_message => STRING] (only error > 0)
 ```
