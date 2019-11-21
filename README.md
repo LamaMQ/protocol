@@ -73,7 +73,7 @@ version_used_minor=UINT8
 
  Message Code | Message Name | Description 
 -------------|---------------|--------------
-1 | [Push message](#Push message) | Push a message on a given server or client
+1 | [Push message](#push-message) | Push a message on a given server or client
 2 | 
 
 ## Push message
