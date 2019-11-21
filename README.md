@@ -1,5 +1,9 @@
 # Introduction
 LamaMQ protocol V.1
+- [Types](#types)
+- [Errors](#errors)
+- [Handshake](#handshake)
+- [Messages](#messages)
 
 # Types
 All types related in the message protocol are explained here ;
