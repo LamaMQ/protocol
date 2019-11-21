@@ -25,9 +25,9 @@ Error code  | Error Name | Description
 When a client connect to a Lama node. It need to init a handshake, the sequence of messages does not evolve.
 
 ## Sequence
-Client => Server : Authentification
-Server => Client : Supported protocol version
-Client => Server : Choose a protocol version to use
+- Client => Server : Authentification
+- Server => Client : Supported protocol version
+- Client => Server : Choose a protocol version to use
 
 ## Authentification
 
