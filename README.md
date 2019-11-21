@@ -94,13 +94,15 @@ payload type => UINT8
   payload_string (payload_type = 1)
   payload_buffer (payload_type = 2)
 
-payload_empty:
+payload_empty{}
 
-payload_string:
+payload_string{
   payload => STRING
+}
 
-payload_buffer:
+payload_buffer{
   payload => BUFFER
+}
 
 ```
 
