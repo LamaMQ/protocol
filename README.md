@@ -137,19 +137,23 @@ version_used_minor=UINT8
 
  Message Code | Message Name | Description 
 -------------|---------------|--------------
-1 | [Push message](#push-message) | Push a message on a given server
-2 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
+0 | [Push message](#push-message) | Push a message on a given server
+1 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
+32 | [Topic subscribe](#topic-subscribe) | Register a client to a specific topic
+33 | [Topic unsuscribe](#topic-unsubcribe) | Unregister to a topic
+64 | [Middleware register](#middleware-register) | Register a new middleware
+65 | [Middleware unregister](#middleware-unregister) | Remove a middleware
 
 ## Push message
 
 Push a message on a server
 ```
-message header => message header (with message type = 1)
+message header => message header (with message type = 0)
 mesage => message
 ```
 Field | Description
 ------|-------------
-[message header](#structure-message-header) | The message header with, message type = 1
+[message header](#structure-message-header) | The message header with, message type = 0
 [message](#structure-message) | The message content
 
 Server answer with
@@ -162,11 +166,19 @@ error => UINT8 (if error=0 ; no error, message ACK)
 ## Forward message
 Forward a message on a client or a server
 ```
-message header => message header (with message type = 2)
+message header => message header (with message type = 1)
 mesage => message
 
 ```
 Field | Description
 ------|-------------
-[message header](#structure-message-header) | The message header with, message type = 2
+[message header](#structure-message-header) | The message header with, message type = 1
 [message](#structure-message) | The message content
+
+## Topic subscribe
+
+## Topic unsubscribe
+
+## Middleware register
+
+## Middleware unregister
