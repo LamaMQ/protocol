@@ -15,6 +15,7 @@ Name |  Description
 UINT8 | Unsigned 8 bits
 UINT16 | Unsigned 16 bits
 UINT32 | Unsigned 32 bits
+INT32 | 32 bits integer
 ARRAY | UINT16 defining the size of the array (array copy the following type)
 STRING | UINT32 defining the size of the string, following string.
 BUFFER | UINT32 defining the size of the buffer (in byte) following the buffer.
@@ -30,7 +31,7 @@ Name | Description
 Message header is used to communicate between a client a server.
 ```
 Message header{
-  Message id => UINT32
+  Message id => INT32
   Message type => UINT8
 }
 ```
@@ -203,7 +204,7 @@ The server response with [a topic subscribtion ACK](#topic-subscription-ack).
 ## Topic subscription ack
 ```
 message header => message header (with message type = 33)
-suscribtion id => UINT32
+suscribtion id => INT32
 ```
 Field | Description
 ------|-------------
