@@ -121,7 +121,7 @@ min_version_minor_supported=UINT8
 
 Field | Description
 -------|-----------
-max_version_major_supported | Max version supported (major.minor.patch) of the protocol
+max_version_major_supported | Max version supported (major.minor.patch) of the protocol
 max_version_minor_suppored | Max version supported (major.minor.patch) of the protocol
 min_version_major_supported | Min version supported (major.minor.patch) of the protocol
 min_version_minor_supported | Min version supported (major.minor.patch) of the protocol
@@ -138,7 +138,7 @@ version_used_minor=UINT8
  Message Code | Message Name | Description 
 -------------|---------------|--------------
 0 | [Push message](#push-message) | Push a message on a given server
-1 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
+1 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
 32 | [Topic subscribe](#topic-subscribe) | Register a client to a specific topic
 33 | [Topic unsuscribe](#topic-unsubcribe) | Unregister to a topic
 64 | [Middleware register](#middleware-register) | Register a new middleware
