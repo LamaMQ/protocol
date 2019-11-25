@@ -135,50 +135,115 @@ version_used_minor=UINT8
 
 # Messages
 
- Message Code | Message Name | Description 
+Message Code | Message Name | Description 
 -------------|---------------|--------------
-0 | [Push message](#push-message) | Push a message on a given server
-1 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
+0 | [Basic ACK](#basic-ack) | Standard answer for many message
+1 | [Push message](#push-message) | Push a message on a given server
+2 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
 32 | [Topic subscribe](#topic-subscribe) | Register a client to a specific topic
-33 | [Topic unsuscribe](#topic-unsubcribe) | Unregister to a topic
+33 | [Topic subscribtion ACK](#topic-subscription-ack) | ACK to a topic subscription
+34 | [Topic unsuscribe](#topic-unsubcribe) | Unregister to a topic
 64 | [Middleware register](#middleware-register) | Register a new middleware
-65 | [Middleware unregister](#middleware-unregister) | Remove a middleware
+65 | [Middleware registration ack](#middleware-registration-ack) | ACK to a middleware subscription
+66 | [Middleware unregister](#middleware-unregister) | Remove a middleware
+
+## Basic ACK
+
+```
+message header => message header (with message type = 0)
+error code => INT8
+error message => STRING
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 0
+error code | If error code = 0, no error, the message was processed successfuly. [Error code will match the errors listed here.](#errors)
+error message | Optional message if error code > 0
 
 ## Push message
 
 Push a message on a server
 ```
-message header => message header (with message type = 0)
-mesage => message
-```
-Field | Description
-------|-------------
-[message header](#structure-message-header) | The message header with, message type = 0
-[message](#structure-message) | The message content
-
-Server answer with
-```
-message id => UINT32
-error => UINT8 (if error=0 ; no error, message ACK)
-[error_message => STRING] (only error > 0)
-```
-
-## Forward message
-Forward a message on a client or a server
-```
 message header => message header (with message type = 1)
 mesage => message
-
 ```
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 1
 [message](#structure-message) | The message content
 
+Server will answer with [Basic ack](#basic-ack) when message will be processed.
+
+## Forward message
+Forward a message on a client or a server
+```
+message header => message header (with message type = 2)
+mesage => message
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 2
+[message](#structure-message) | The message content
+
+Client will answer with [Basic ack](#basic-ack) when message will be processed.
 ## Topic subscribe
+Suscribe to a topic. All message mathing the topic will be forwarded on the client
+```
+message header => message header (with message type = 32)
+routing key => STRING
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 32
+routing key | The routing key used to know when message need to be routed to this suscribtion
+
+The server response with [a topic subscribtion ACK](#topic-subscription-ack).
+
+## Middleware subscribtion ack
+```
+message header => message header (with message type = 33)
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 33
 
 ## Topic unsubscribe
+Unsuscribe to a topic.
+```
+message header => message header (with message type = 34)
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 34
 
 ## Middleware register
+```
+message header => message header (with message type = 64)
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 64
+
+The server will answer with [a middleware registration ack](#middleware-registration-ack).
+
+## Middleware registration ack
+```
+message header => message header (with message type = 65)
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 65
 
 ## Middleware unregister
+```
+message header => message header (with message type = 66)
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 66
