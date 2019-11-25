@@ -141,8 +141,8 @@ Message Code | Message Name | Description
 1 | [Push message](#push-message) | Push a message on a given server
 2 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
 32 | [Topic subscribe](#topic-subscribe) | Register a client to a specific topic
-33 | [Topic subscribtion ACK](#topic-subscription-ack) | ACK to a topic subscription
-34 | [Topic unsuscribe](#topic-unsubcribe) | Unregister to a topic
+33 | [Topic subscription ACK](#topic-subscription-ack) | ACK to a topic subscription
+34 | [Topic unsubscribe](#topic-unsubscribe) | Unregister to a topic
 64 | [Middleware register](#middleware-register) | Register a new middleware
 65 | [Middleware registration ack](#middleware-registration-ack) | ACK to a middleware subscription
 66 | [Middleware unregister](#middleware-unregister) | Remove a middleware
@@ -188,7 +188,7 @@ Field | Description
 
 Client will answer with [Basic ack](#basic-ack) when message will be processed.
 ## Topic subscribe
-Suscribe to a topic. All message mathing the topic will be forwarded on the client
+Subscribe to a topic. All message mathing the topic will be forwarded on the client
 ```
 message header => message header (with message type = 32)
 routing key => STRING
@@ -200,17 +200,18 @@ routing key | The routing key used to know when message need to be routed to thi
 
 The server response with [a topic subscribtion ACK](#topic-subscription-ack).
 
-## Middleware subscribtion ack
+## Topic subscription ack
 ```
 message header => message header (with message type = 33)
-
+suscribtion id => UINT32
 ```
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 33
+subscription id | A unique id, use to refer this suscribtion (used during message forwarding).
 
 ## Topic unsubscribe
-Unsuscribe to a topic.
+Unsubscribe to a topic.
 ```
 message header => message header (with message type = 34)
 
@@ -218,6 +219,7 @@ message header => message header (with message type = 34)
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 34
+subscription id | The unique id used to refer this suscribtion.
 
 ## Middleware register
 ```
