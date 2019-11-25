@@ -15,7 +15,7 @@ Name |  Description
 UINT8 | Unsigned 8 bits
 UINT16 | Unsigned 16 bits
 UINT32 | Unsigned 32 bits
-ARRAY | UINT16 defining the size of the array (array copy the following type)
+ARRAY | UINT16 defining the size of the array (array copy the following type)
 STRING | UINT32 defining the size of the string, following string.
 BUFFER | UINT32 defining the size of the buffer (in byte) following the buffer.
 
