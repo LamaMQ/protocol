@@ -257,7 +257,7 @@ Field | Description
 hook name | The name of the hook (if middleware already register with the same name, does not create hook again).
 hook priority | Order of execution of the hook on the server, if multiple hook at the same point.
 hook strategy | Hook strategy. See [Hook strategy](#hook-strategy).
-hook type | Different type of hook are available. See [Hook type](#hook-type)
+hook type | Different type of hook are available. See [Hook type](#hook-types)
 
 The server will answer with [a middleware registration ack](#middleware-registration-ack) depending on the hook type provided.
 
