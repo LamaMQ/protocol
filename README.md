@@ -223,15 +223,94 @@ Field | Description
 subscription id | The unique id used to refer this suscribtion.
 
 ## Middleware register
+Call for register a new hook on the server.
 ```
 message header => message header (with message type = 64)
+hook name => STRING
+hook priority => INT32
+hook timeout => UINT32
+hook strategy => UINT8
+hook type => UINT8
+  - [hook type = 0] => hook_client_connect
+  - [hook type = 1] => hook_client_disconnect
+  - [hook type = 16] => hook_message_pushed
+  - [hook type = 32] => hook_topic_subscribed
+  - [hook type = 33] => hook_topic_unsubscribed
+  - [hook type = 64] => hook_middleware_registred
+  - [hook type = 65] => hook_middleware_unregistred
 
+hook_client_connect{}
+
+hook_client_disconnect{}
+
+hook_topic_subscribed{}
+
+hook_topic_unsubscribed{}
+
+hook_middleware_registred{}
+
+hook_middleware_unregistred{}
 ```
 Field | Description
 ------|-------------
-[message header](#structure-message-header) | The message header with, message type = 64
+[message header](#structure-message-header) | The message header with, message type = 64.
+hook name | The name of the hook (if middleware already register with the same name, does not create hook again).
+hook priority | Order of execution of the hook on the server, if multiple hook at the same point.
+hook strategy | Hook strategy. See [Hook strategy](#hook-strategy).
+hook type | Different type of hook are available. See [Hook type](#hook-type)
 
-The server will answer with [a middleware registration ack](#middleware-registration-ack).
+The server will answer with [a middleware registration ack](#middleware-registration-ack) depending on the hook type provided.
+
+### Hook strategy
+Middleware register hook with multiple different behavior.
+- If we want no ACK (hook strategy = 0), the server does not wait for any ACK from the middleware, the timeout is not used.
+- If we want an ACK(hook strategy = 1), the server wait for an ACK from the middleware, without ACK after the timeout, an error will be raised to stop the process.
+- If we want an ACK, but it's not a big deal, if we don't get one (hook strategy = 2), the server wait for an ACK from the middleware, without ACK after the timeout, no error will be raised and the middleware will be ignored.
+
+### Hook types
+#### Hook - Client connect
+#### Hook - Client disconnect
+#### Hook - Message pushed
+Register a hook on message pushed. Every message pushed could be intercepted or just some of them, depending of the routing condition.
+
+```
+// Middleware registration
+hook_message_pushed{
+  routing conditions => ARRAY<routing condition>
+    routing condition{
+      UINT8 routing type
+      - [routing type = 0] => routing_topic_match
+      - [routing type = 4] => routing_header_match
+      - [routing type = 5] => routing_header_exists
+      
+      routing_topic_match{
+        routing topic => STRING
+      }
+      
+      routing_header_match{
+        header => STRING
+        value => STRING
+      }
+      
+      routing_header_exists{
+        header => STRING
+      }
+    }
+}
+```
+Field | Description
+------|-------------
+[Middleware registration](Middleware register) | Message payload of a middleware registration with hook type = 16
+routing conditions| Array of reason to push the message on the middleware (act like an AND between conditions).
+routing type | Define the type of conditions
+routing topic  | A routing type to listen to, with wildcare authorized (like a topic subscription).
+header | Name of a message header
+value | Value of a message header
+
+#### Hook - Topic subscribed
+#### Hook - Topic unsubscribed
+#### Hook - Middleware registred
+#### Hook - Middleware unregistred
 
 ## Middleware registration ack
 ```
