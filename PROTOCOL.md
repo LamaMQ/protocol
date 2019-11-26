@@ -84,8 +84,10 @@ Error code help create easy exception matching the case of the errors.
 
 Error code  | Error Name | Description 
 -------------|--------------|-------------------------
- 1   | Server Exception | Unknown error from the server 
- 2   | Bad request | The request make do not follow expected payload 
+ 1   | Server Exception | Unknown error from the server.
+ 2   | Bad request | The request make do not follow expected payload.
+ 3 | Middleware timeout | The middleware timeout during the request processing.
+ 4 | Middleware error | The middleware response with an error.
 
 # Handshake
 When a client connect to a Lama node. It need to init a handshake, the sequence of messages does not evolve.
