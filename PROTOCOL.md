@@ -12,10 +12,11 @@ All types related in the message protocol are explained here ;
 
 Name |  Description
 -----|---------------
+BOOLEAN | Signed 8bits integer (0 => False / 1 => TRUE)
 UINT8 | Unsigned 8 bits
 UINT16 | Unsigned 16 bits
 UINT32 | Unsigned 32 bits
-INT32 | 32 bits integer
+INT32 | Signed 32 bits integer
 ARRAY | UINT16 defining the size of the array (array copy the following type)
 STRING | UINT32 defining the size of the string, following string.
 BUFFER | UINT32 defining the size of the buffer (in byte) following the buffer.
@@ -240,18 +241,6 @@ hook type => UINT8
   - [hook type = 33] => hook_topic_unsubscribed
   - [hook type = 64] => hook_middleware_registred
   - [hook type = 65] => hook_middleware_unregistred
-
-hook_client_connect{}
-
-hook_client_disconnect{}
-
-hook_topic_subscribed{}
-
-hook_topic_unsubscribed{}
-
-hook_middleware_registred{}
-
-hook_middleware_unregistred{}
 ```
 Field | Description
 ------|-------------
@@ -271,7 +260,36 @@ Middleware register hook with multiple different behavior.
 
 ### Hook types
 #### Hook - Client connect
+Hook triggered when a client connect to the server.
+```
+// Middleware registration
+hook_client_connect{
+  on socket => BOOLEAN
+  on authentification => BOOLEAN
+  on version choose => BOOLEAN
+}
+```
+Field | Description
+------|-------------
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 0
+on socket | Trigger the hook when the connection is etablished.
+on authentification | Trigger the hook when the client auth.
+on version choose | Trigger when the client choose the version of the protocol to use.
+
+At least one field need to be at true.
+
 #### Hook - Client disconnect
+Hook when a client disconnect from the server.
+```
+// Middleware registration
+hook_client_disconnect{}
+```
+Field | Description
+------|-------------
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 1
+
+No payload required.
+
 #### Hook - Message pushed
 Register a hook on message pushed. Every message pushed could be intercepted or just some of them, depending of the routing condition.
 
@@ -302,7 +320,7 @@ hook_message_pushed{
 ```
 Field | Description
 ------|-------------
-[Middleware registration](Middleware register) | Message payload of a middleware registration with hook type = 16
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 16
 routing conditions| Array of reason to push the message on the middleware (act like an AND between conditions).
 routing type | Define the type of conditions
 routing topic  | A routing type to listen to, with wildcare authorized (like a topic subscription).
@@ -310,9 +328,40 @@ header | Name of a message header
 value | Value of a message header
 
 #### Hook - Topic subscribed
+```
+// Middleware registration
+hook_topic_subscribed{}
+```
+Field | Description
+------|-------------
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 32
+
 #### Hook - Topic unsubscribed
+```
+// Middleware registration
+hook_topic_unsubscribed{}
+```
+Field | Description
+------|-------------
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 33
+
 #### Hook - Middleware registred
+```
+// Middleware registration
+hook_middleware_registred{}
+```
+Field | Description
+------|-------------
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 64
+
 #### Hook - Middleware unregistred
+```
+// Middleware registration
+hook_middleware_unregistred{}
+```
+Field | Description
+------|-------------
+[Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 65
 
 ## Middleware registration ack
 ```
