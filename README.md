@@ -1,6 +1,6 @@
-Welcome to RabbitMQ protocol !
+Welcome to LamaMQ protocol !
 
-RabbitMQ is a project of a new kind of message broker, designed for create plugin easily.
+LamaMQ is a project of a new kind of message broker, designed for create plugin easily.
 
 - [Protocol](./PROTOCOL.md)
 - [Protocol Roadmap](./ROADMAP.md)
@@ -15,7 +15,7 @@ To consume message, you need to first, register to a topic, you can use wildcard
 Every message published matching your topic, will be pushed on your client, to be consumed.
 
 ## Middleware
-The main difference between LamaMQ and Kafka or RabbitMQ, is the middleware concept.
+The main difference between LamaMQ and Kafka or LamaMQ, is the middleware concept.
 A client can publish or consume message, but it could act as middleware too.
 To act like a middleware, the client could register hook.
 A hook could target message publishing, or topic registration or anything which happen,
