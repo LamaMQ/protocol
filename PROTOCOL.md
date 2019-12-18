@@ -26,7 +26,7 @@ BUFFER | UINT32 defining the size of the buffer (in byte) following the buffer.
 Name | Description
 -------|--------------
 [Message header](#structure-message-header) | Message header is used to communicate between a client a server.
-[Message](#structure-message) | A message is the basic data transmited on the server.
+[Message](#structure-message) | A message is the basic data transmitted on the server.
 
 ### Structure - Message header
 Message header is used to communicate between a client a server.
@@ -200,19 +200,19 @@ routing key => STRING
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 32
-routing key | The routing key used to know when message need to be routed to this suscribtion
+routing key | The routing key used to know when message need to be routed to this subscription
 
 The server response with [a topic subscribtion ACK](#topic-subscription-ack).
 
 ## Topic subscription ack
 ```
 message header => message header (with message type = 33)
-suscribtion id => INT32
+subscription id => INT32
 ```
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 33
-subscription id | A unique id, use to refer this suscribtion (used during message forwarding).
+subscription id | A unique id, use to refer this subscription (used during message forwarding).
 
 ## Topic unsubscribe
 Unsubscribe to a topic.
@@ -223,7 +223,7 @@ message header => message header (with message type = 34)
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 34
-subscription id | The unique id used to refer this suscribtion.
+subscription id | The unique id used to refer this subscription.
 
 ## Middleware register
 Call for register a new hook on the server.
