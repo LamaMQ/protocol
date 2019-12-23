@@ -42,7 +42,7 @@ Message id | Contain an id, the id need to be uniq at a given time, only between
 Message type | A number to know which [message](#messages) the client or the server have received.
 
 ### Structure - Message
-A message is the basic data transmited on the server.
+A message is the basic data transmitted on the server.
 ```
 Message{
   created at => UINT32
@@ -111,7 +111,7 @@ Field | Description
 ------|--------------
 auth_method | Version of the auth method (always 0 currently).
 identity_name | The name of the client
-identity_key | Optional buffer containing a key for identifily uniquely a client
+identity_key | Optional buffer containing a key for identify uniquely a client
 
 ## Supported protocol version
 Server answer (if success) with the protocol version supported
@@ -126,7 +126,7 @@ min_version_minor_supported=UINT8
 Field | Description
 -------|-----------
 max_version_major_supported | Max version supported (major.minor.patch) of the protocol
-max_version_minor_suppored | Max version supported (major.minor.patch) of the protocol
+max_version_minor_supported | Max version supported (major.minor.patch) of the protocol
 min_version_major_supported | Min version supported (major.minor.patch) of the protocol
 min_version_minor_supported | Min version supported (major.minor.patch) of the protocol
 
@@ -161,7 +161,7 @@ error message => STRING
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 0
-error code | If error code = 0, no error, the message was processed successfuly. [Error code will match the errors listed here.](#errors)
+error code | If error code = 0, no error, the message was processed successfully. [Error code will match the errors listed here.](#errors)
 error message | Optional message if error code > 0
 
 ## Push message
@@ -192,7 +192,7 @@ Field | Description
 
 Client will answer with [Basic ack](#basic-ack) when message will be processed.
 ## Topic subscribe
-Subscribe to a topic. All message mathing the topic will be forwarded on the client
+Subscribe to a topic. All message matching the topic will be forwarded on the client
 ```
 message header => message header (with message type = 32)
 routing key => STRING
@@ -272,7 +272,7 @@ hook_client_connect{
 Field | Description
 ------|-------------
 [Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 0
-on socket | Trigger the hook when the connection is etablished.
+on socket | Trigger the hook when the connection is established.
 on Authentication | Trigger the hook when the client auth.
 on version choose | Trigger when the client choose the version of the protocol to use.
 
@@ -323,7 +323,7 @@ Field | Description
 [Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 16
 routing conditions| Array of reason to push the message on the middleware (act like an AND between conditions).
 routing type | Define the type of conditions
-routing topic  | A routing type to listen to, with wildcare authorized (like a topic subscription).
+routing topic  | A routing type to listen to, with wildcard pattern authorized (like a topic subscription).
 header | Name of a message header
 value | Value of a message header
 
