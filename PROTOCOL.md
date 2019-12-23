@@ -94,13 +94,13 @@ Error code  | Error Name | Description
 When a client connect to a Lama node. It need to init a handshake, the sequence of messages does not evolve.
 
 ## Sequence
-- Client => Server : Authentification
+- Client => Server : Authentication
 - Server => Client : Supported protocol version
 - Client => Server : Choose a protocol version to use
 
-## Authentification
+## Authentication
 
-Client call the server, for authentification.
+Client call the server, for authentication.
 ```
 auth_method => UINT8
 identity_name => STRING
@@ -265,7 +265,7 @@ Hook triggered when a client connect to the server.
 // Middleware registration
 hook_client_connect{
   on socket => BOOLEAN
-  on authentification => BOOLEAN
+  on authentication => BOOLEAN
   on version choose => BOOLEAN
 }
 ```
@@ -273,7 +273,7 @@ Field | Description
 ------|-------------
 [Middleware registration](#middleware-register) | Message payload of a middleware registration with hook type = 0
 on socket | Trigger the hook when the connection is etablished.
-on authentification | Trigger the hook when the client auth.
+on Authentication | Trigger the hook when the client auth.
 on version choose | Trigger when the client choose the version of the protocol to use.
 
 At least one field need to be at true.
