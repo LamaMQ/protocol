@@ -47,6 +47,7 @@ A message is the basic data transmitted on the server.
 Message{
   created at => UINT32
   routing key => STRING
+  expect answer => BOOLEAN
   headers => ARRAY (header)
   header{
     key => STRING
@@ -72,6 +73,7 @@ Field | Description
 ------|-------------
 created at | A timestamp set by the message emitter to track when the message was created
 routing key | The routing key used to know where the message need to be forwarded
+expect answer | Active RPC mode, on a message, if true, the server will create a tunnel for handling an answer from the remote server
 headers | You can set multiple headers, headers could be processed by the message receiver or a middleware.
 header.key | The key of the header (like a variable name).
 header.value | The value of the header (like a variable value).
@@ -142,8 +144,9 @@ version_used_minor=UINT8
 Message Code | Message Name | Description 
 -------------|---------------|--------------
 0 | [Basic ACK](#basic-ack) | Standard answer for many message
-1 | [Push message](#push-message) | Push a message on a given server
-2 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
+2 | [Push message](#push-message) | Push a message on a given server
+3 | [Push message ACK](#push-message-ack) | Acknowledge of the message push
+4 | [Forward message](#forward-message) | Transmit a message from the server to a client or another server
 32 | [Topic subscribe](#topic-subscribe) | Register a client to a specific topic
 33 | [Topic subscription ACK](#topic-subscription-ack) | ACK to a topic subscription
 34 | [Topic unsubscribe](#topic-unsubscribe) | Unregister to a topic
@@ -168,7 +171,7 @@ error message | Optional message if error code > 0
 
 Push a message on a server
 ```
-message header => message header (with message type = 1)
+message header => message header (with message type = 2)
 mesage => message
 ```
 Field | Description
@@ -178,19 +181,40 @@ Field | Description
 
 Server will answer with [Basic ack](#basic-ack) when message will be processed.
 
+## Push message ACK
+Acknowledge the reception of a push message
+```
+message header => message header (with message type = 0)
+error code => INT8
+error message => STRING
+subscription id => INT32
+
+```
+Field | Description
+------|-------------
+[message header](#structure-message-header) | The message header with, message type = 0
+error code | If error code = 0, no error, the message was processed successfully. [Error code will match the errors listed here.](#errors)
+error message | Optional message if error code > 0
+subscription id | Optional subscription id, only set if the message expect an answer
+
 ## Forward message
 Forward a message on a client or a server
 ```
-message header => message header (with message type = 2)
+message header => message header (with message type = 4)
+subscription id => INT32
 mesage => message
+answer id => INT32
 
 ```
 Field | Description
 ------|-------------
 [message header](#structure-message-header) | The message header with, message type = 2
+subscription id | The id of the subscription to identify why a message is routed to a given server
 [message](#structure-message) | The message content
+answer id | Optional id, if the message expect an answer from the client, the server will give the chanel id to use to answer
 
 Client will answer with [Basic ack](#basic-ack) when message will be processed.
+
 ## Topic subscribe
 Subscribe to a topic. All message matching the topic will be forwarded on the client
 ```
